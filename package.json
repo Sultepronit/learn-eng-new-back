@@ -1,0 +1,16 @@
+{
+  "name": "learn-eng-new",
+  "version": "1.0.0",
+  "description": "Backed for my new realisation of English words learning app",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  }
+}
