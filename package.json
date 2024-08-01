@@ -1,7 +1,7 @@
 {
   "name": "learn-eng-new",
   "version": "1.0.0",
-  "description": "Backed for my new realisation of English words learning app",
+  "description": "Back end for my new realisation of English words learning app",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
