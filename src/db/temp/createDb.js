@@ -1,4 +1,4 @@
-import db from './database.js';
+import db from '../connection.js';
 import fs from 'fs/promises';
 
 async function readJson(filepath) {
