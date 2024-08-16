@@ -1,13 +1,15 @@
 export function fromDb(inputData, getTapStats, getWriteStats) {
-    let cardNumber = 1;
+    let index = 0;
     return inputData.map(row => {
+
         const card = {
-            main: {
-                id: row.id,
-                number: cardNumber++,
+            id: row.id,
+            index: index++,
+            article: {
                 word: row.word,
                 transcription: row.transcription,
-                translation: row.translation
+                translation: row.translation,
+                example: row.example
             }
         };
 
