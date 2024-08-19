@@ -5,12 +5,16 @@ export function fromDb(inputData, getTapStats, getWriteStats) {
         const card = {
             id: row.id,
             index: index++,
-            article: {
-                word: row.word,
-                transcription: row.transcription,
-                translation: row.translation,
-                example: row.example
-            }
+            word: row.word,
+            transcription: row.transcription,
+            translation: row.translation,
+            example: row.example
+            // article: {
+            //     word: row.word,
+            //     transcription: row.transcription,
+            //     translation: row.translation,
+            //     example: row.example
+            // }
         };
 
         if(getTapStats) {
