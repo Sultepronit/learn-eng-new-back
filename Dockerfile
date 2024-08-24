@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 # COPY . .
 
-# everithing other is mounted with docker-compose.yaml
+# everything other is mounted with docker-compose.yaml
 COPY package.*json ./
 
 RUN npm i
