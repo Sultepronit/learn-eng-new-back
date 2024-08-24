@@ -1,5 +1,7 @@
 import express from 'express';
 import { getWords } from '../db/crud.js';
+import 'dotenv/config';
+import findOrCreateRecord from '../app/sdkSynth/findOrCreateRecord.js';
 
 const router = express.Router();
 
@@ -22,6 +24,20 @@ router.patch('/words/*', async (req, res) => {
         res.json({ id: req.params[0] });
     } catch (error) {
         res.status(400).json({ 'error': error.message });
+    }
+});
+
+router.get('/audio/:expression', async (req, res) => {
+    const expression = req.params.expression;
+
+    try {
+        const filepath = await findOrCreateRecord(expression);
+        res.setHeader('Content-Type', 'audio/wav');
+        res.sendFile(filepath, (err) => {
+            if (err) res.status(404).send('File not found!');
+        }); 
+    } catch (error) {
+        res.status(500).send('Error during finding/creating file: ' + error.message);
     }
 });
 
