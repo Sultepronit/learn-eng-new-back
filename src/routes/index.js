@@ -27,11 +27,11 @@ router.patch('/words/*', async (req, res) => {
     }
 });
 
-router.get('/audio/:expression', async (req, res) => {
-    const expression = req.params.expression;
+router.get('/audio/:filename', async (req, res) => {
+    const filename = req.params.filename;
 
     try {
-        const filepath = await findOrCreateRecord(expression);
+        const filepath = await findOrCreateRecord(filename);
         res.setHeader('Content-Type', 'audio/wav');
         res.sendFile(filepath, (err) => {
             if (err) res.status(404).send('File not found!');

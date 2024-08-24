@@ -1,4 +1,4 @@
-import createRecord from "./synthPromise.js";
+import createRecord from "./createRecord.js";
 
 await createRecord('hello world!', 'en-US-JennyNeural', 'f1'); 
 
