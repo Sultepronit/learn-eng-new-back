@@ -1,10 +1,9 @@
 export function fromDb(inputData, getTapStats, getWriteStats) {
-    let index = 0;
-    return inputData.map(row => {
-
+    // let index = 0;
+    return inputData.map((row, index) => {
         const card = {
-            id: row.id,
-            index: index++,
+            dbId: row.id,
+            id: index + 1,
             word: row.word,
             transcription: row.transcription,
             translation: row.translation,
