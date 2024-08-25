@@ -23,7 +23,8 @@ export default async function findOrCreateRecord(filename) {
     } catch (error) { // no error, just no file
         const [expression, voiceCode] = filename.split(/[_.]/);
         const voice = voices[voiceCode];
-        await createRecord(expression, filepath, voice);  
+        const rate = voiceCode.includes('1') ? 1 : 0.8;
+        await createRecord(expression, filepath, voice, rate);  
         console.log('created the file'); 
     }
 

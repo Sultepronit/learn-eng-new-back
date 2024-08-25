@@ -1,7 +1,7 @@
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import { audioDir } from "./findOrCreateRecord.js";
 
-export default async function createRecord(text, filepath, voice) {
+export default async function createRecord(text, filepath, voice, rate) {
     console.time('creating file');
     return new Promise((resolve, reject) => {
         // const filePath = `${audioDir}/${filename}.wav`;
@@ -16,7 +16,7 @@ export default async function createRecord(text, filepath, voice) {
         const ssmlText = `
         <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
             <voice name="${voice}">
-                <prosody rate="0.8" volume="150">
+                <prosody rate="${rate}" volume="150">
                     ${text}
                 </prosody>
             </voice>
