@@ -2,10 +2,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import createRecord from './createRecord.js';
 import fs from 'fs/promises';
+import prependPath from '../../helpers/prependPath.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-export const audioDir = path.join(__dirname, 'records');
+export const audioDir = path.join(__dirname, 'records'); // to be removed
 
 const voices = {
     m1: 'en-US-RyanMultilingualNeural',
@@ -14,8 +15,10 @@ const voices = {
     f2: 'en-US-NancyMultilingualNeural'
 };
 
-export default async function findOrCreateRecord(filename) {
-    const filepath = path.join(audioDir, filename.replaceAll(' ', '+'));
+export default async function findOrCreateRecord(filename, temp = false) {
+    const dirname = temp ? 'temp-records' : 'records';
+    // filename = filename.replaceAll(' ', '+');
+    const filepath = prependPath(import.meta.url, dirname, filename.replaceAll(' ', '+'));
     // console.log(filepath);
     try {
         await fs.access(filepath);

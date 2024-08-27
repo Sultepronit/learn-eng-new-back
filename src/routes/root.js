@@ -46,6 +46,20 @@ router.get('/audio/:filename', async (req, res) => {
     }
 });
 
+router.get('/audio-temp/:filename', async (req, res) => {
+    const filename = req.params.filename;
+
+    try {
+        const filepath = await findOrCreateRecord(filename, true);
+        // res.setHeader('Content-Type', 'audio/wav');
+        res.sendFile(filepath, (err) => {
+            if (err) res.status(404).send('File not found!');
+        }); 
+    } catch (error) {
+        res.status(500).send('Error during finding/creating file: ' + error.message);
+    }
+});
+
 router.get('/scripts/:filename', (req, res) => {
     const filename = req.params.filename;
     const filepath = path.join(

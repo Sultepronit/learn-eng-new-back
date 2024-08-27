@@ -1,11 +1,8 @@
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
-import { audioDir } from "./findOrCreateRecord.js";
 
 export default async function createRecord(text, filepath, voice, rate) {
     console.time('creating file');
     return new Promise((resolve, reject) => {
-        // const filePath = `${audioDir}/${filename}.wav`;
-
         const key = process.env.SPEECH_KEY;
         const region = process.env.SPEECH_REGION;
         const speechConfig = sdk.SpeechConfig.fromSubscription(key, region);
@@ -25,7 +22,10 @@ export default async function createRecord(text, filepath, voice, rate) {
         synthesizer.speakSsmlAsync(ssmlText,
             result => {
                 if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-                    resolve('Success!');
+                    setTimeout(() => {
+                        resolve('Success!'); // is it any good? 
+                    }, 100);
+                    // resolve('Success!');
                     console.timeEnd('creating file');
                 } else {
                     reject(result.errorDetails);
