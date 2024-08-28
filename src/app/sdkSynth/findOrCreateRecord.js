@@ -11,7 +11,8 @@ export const audioDir = path.join(__dirname, 'records'); // to be removed
 const voices = {
     m1: 'en-US-RyanMultilingualNeural',
     f1: 'en-US-JennyNeural',
-    m2: 'en-US-ChristopherNeural',
+    // m2: 'en-US-ChristopherNeural',
+    m2: 'en-US-GuyNeural',
     f2: 'en-US-NancyMultilingualNeural'
 };
 
