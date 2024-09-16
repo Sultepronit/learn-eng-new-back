@@ -20,6 +20,14 @@ router.get('/words', async (req, res) => {
     }
 });
 
+router.post('/words', async (req, res) => {
+    try {
+        res.json({ success: true });
+    } catch (error) {
+        res.status(400).json({ 'error': error.message });
+    }
+})
+
 router.patch('/words/*', async (req, res) => {
     try {
         // res.json(req.query);
@@ -27,6 +35,16 @@ router.patch('/words/*', async (req, res) => {
         //     res.json({ id: req.params[0] });
         // }, 5000);
         res.json({ id: req.params[0] });
+    } catch (error) {
+        res.status(400).json({ 'error': error.message });
+    }
+});
+
+// send all the cards after deleting one
+router.delete('/words/:id', async (req, res) => {
+    try {    
+        res.json(await getWords(true, true));
+        console.log('sended all the words!')
     } catch (error) {
         res.status(400).json({ 'error': error.message });
     }
