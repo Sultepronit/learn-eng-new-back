@@ -4,15 +4,16 @@ import 'dotenv/config';
 import findOrCreateRecord from '../app/sdkSynth/findOrCreateRecord.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getCards } from '../controllers/cardsController.js';
+import { deleteCard, getCards } from '../controllers/cardsController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// get all the words
 router.get('/cards', getCards);
+
+router.delete('/cards/:id', deleteCard);
 
 router.post('/words', async (req, res) => {
     try {
@@ -29,16 +30,6 @@ router.patch('/words/*', async (req, res) => {
         //     res.json({ id: req.params[0] });
         // }, 5000);
         res.json({ id: req.params[0] });
-    } catch (error) {
-        res.status(400).json({ 'error': error.message });
-    }
-});
-
-// send all the cards after deleting one
-router.delete('/words/:id', async (req, res) => {
-    try {    
-        res.json(await getWords(true, true));
-        console.log('sended all the words!')
     } catch (error) {
         res.status(400).json({ 'error': error.message });
     }
