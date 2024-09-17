@@ -1,57 +1,18 @@
 import express from 'express';
-import { getDbVersion, getWords } from '../db/crud.js';
+// import { getDbVersion, getWords } from '../db/crud.js';
 import 'dotenv/config';
 import findOrCreateRecord from '../app/sdkSynth/findOrCreateRecord.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getCards } from '../controllers/cardsController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-async function getData(clientVersion) {
-    const dbVersion = await getDbVersion();
-    console.log(clientVersion, dbVersion);
-
-    const toBeUpdated = {};
-    let blocksCount = 0;
-    for(const field in dbVersion) {
-        // console.log(field);
-        // console.log(dbVersion[field], Number(clientVersion[field]));
-        if(dbVersion[field] !== Number(clientVersion[field])) {
-            toBeUpdated[field] = dbVersion[field];
-            blocksCount++;
-        }
-    }
-
-    console.log(blocksCount, toBeUpdated);
-
-    // if(!blocksCount) return { status: 'up-to-date' };
-    // if(!blocksCount) return { toBeUpdated };
-    if(!blocksCount) return {};
-
-    const data = await getWords(
-        !!toBeUpdated.articles, !!toBeUpdated.tap, !!toBeUpdated.write
-    );
-
-    // return data;
-    return {
-        dbVersion: toBeUpdated,
-        ...(blocksCount === 3 ? { totalUpdate: true } : null ),
-        data
-    };
-}
-
 // get all the words
-router.get('/words', async (req, res) => {
-    try {    
-        res.json(await getData(req.query));
-        console.log('sended all the words!')
-    } catch (error) {
-        res.status(400).json({ 'error': error.message });
-    }
-});
+router.get('/cards', getCards);
 
 router.post('/words', async (req, res) => {
     try {

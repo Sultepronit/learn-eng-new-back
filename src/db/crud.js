@@ -1,5 +1,5 @@
+// import dbBlocks from "../services/dbBlocks.js";
 import db from "./connection.js";
-import { fromDb } from "../helpers/transformData.js";
 
 export function getDbVersion() {
     return new Promise((reslove, reject) => {
@@ -13,13 +13,13 @@ export function getDbVersion() {
     });
 }
 
-export function getWords(articles, tap, write) {
+export function selectCards(columns) {   
     return new Promise((reslove, reject) => {
-        db.all('SELECT * FROM main_data', (err, rows) => {
+        db.all(`SELECT ${columns} FROM main_data`, (err, rows) => {
             if(err) {
                 reject(err);
             } else {
-                reslove(fromDb(rows, articles, tap, write));
+                reslove(rows);
             }
         });
     });
