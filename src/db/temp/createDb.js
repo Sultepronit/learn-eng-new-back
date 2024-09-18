@@ -14,6 +14,7 @@ db.serialize(async () => {
     const dropMainTable = 'DROP TABLE IF EXISTS main_data';
     const createMainTable = `CREATE TABLE main_data (
         id INTEGER PRIMARY KEY,
+        number INTEGER,
         tap_status INTEGER DEFAULT -1,
         tap_f_progress INTEGER DEFAULT 0,
         tap_b_progress INTEGER DEFAULT 0,
@@ -37,6 +38,7 @@ db.serialize(async () => {
     db.run(createMainTable);
 
     const fillMainTable = `INSERT INTO main_data (
+        number,
         tap_status,
         tap_f_progress,
         tap_b_progress,
@@ -47,12 +49,13 @@ db.serialize(async () => {
         transcription,
         translation,
         example
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     let stmt = db.prepare(fillMainTable);
     const rawData = await readJson('./source2.json');
     for(let i = 0; i < rawData.length; i++) {
         stmt.run([
+            i + 1,
             rawData[i][0],
             rawData[i][1],
             rawData[i][2],

@@ -1,15 +1,4 @@
-// import dbBlocks from "../services/dbBlocks.js";
 import db from "./connection.js";
-
-// function resultCallback(err, result) {
-//     return new Promise((resolve, reject) => {
-//         if(err) {
-//             reject(err);
-//         } else {
-//             resolve(result);
-//         }
-//     });
-// }
 
 export function getDbVersion() {
     return new Promise((resolve, reject) => {
@@ -31,8 +20,31 @@ export function selectCards(columns) {
 
 export function deleteCard(id) {   
     return new Promise((resolve, reject) => {
-        db.run('DELETE FROM main_data WHERE id = ?', [id], (err) => {
-            err ? reject(err) : resolve('deleted!');
+        db.serialize(() => {
+            db.run('BEGIN TRANSACTION');
+            
+            db.run('DELETE FROM main_data WHERE id = ?', [id], (err) => {
+                if(err) {
+                    db.run('ROLLBACK');
+                    reject(err);
+                } else {
+                    db.run('UPDATE main_data SET number = number - 1 WHERE id > ?', [id], (err) => {
+                        if(err) {
+                            db.run('ROLLBACK');
+                            reject(err);
+                        } else {
+                            db.run('COMMIT', (err) => {
+                                if (err) {
+                                    reject(err);
+                                    console.log('commit error!');
+                                } else {
+                                    resolve('deleted!');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
     });
 }
