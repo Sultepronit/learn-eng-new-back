@@ -8,7 +8,8 @@ function parseBlock(row, card, block) {
 }
 
 function transformRowFromDb(row) {
-    const card = { id: row.id };
+    // const card = { id: row.id };
+    const card = { dbid: row.id };
     if(row.word) parseBlock(row, card, dbBlocks.articles);
     if('tap_status' in row) parseBlock(row, card, dbBlocks.tap);
     if('write_status' in row) parseBlock(row, card, dbBlocks.write);
