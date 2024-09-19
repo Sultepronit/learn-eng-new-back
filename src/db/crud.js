@@ -19,7 +19,7 @@ export function updateDbVersion(articles = false, tap = false, write = false) {
     const query = `UPDATE db_version SET ${changes} WHERE ROWID = 1`;
 
     return new Promise((resolve, reject) => {
-        db.run(query, (err) => err ? reject(err) : resolve('updated!'))
+        db.run(query, (err) => err ? reject(err) : resolve('updated!'));
     });
 }
 
@@ -37,6 +37,19 @@ export function selectCardBy(column, value) {
             db.get(`SELECT * FROM main_data WHERE ${column} = ?`, [value], (err, result) => {
             err ? reject(err) : resolve(result)
         });
+    });
+}
+
+export function updateCard(id, changes) {
+    return new Promise((resolve, reject) => {
+        const columns = Object.keys(changes);
+        const values = Object.values(changes);
+
+        const setClause = columns.join(' = ?, ');
+
+        const query = `UPDATE main_data SET ${setClause} = ? WHERE id = ?`;
+        console.log(query);
+        db.run(query, [...values, id], (err) => err ? reject(err) : resolve('updated!'));
     });
 }
 

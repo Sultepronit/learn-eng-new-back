@@ -1,6 +1,6 @@
 import dbBlocks from "./dbBlocks.js";
 
-function parseBlock(row, card, block) {
+function parseBlockToCard(row, card, block) {
     const { db, js } = block;
     for(let i = 0; i < db.length; i++) {
         card[js[i]] = row[db[i]];
@@ -8,22 +8,40 @@ function parseBlock(row, card, block) {
 }
 
 export function transformRowToCard(row) {
-    // const card = { id: row.id };
     const card = { dbid: row.id };
-    if('word' in row) parseBlock(row, card, dbBlocks.articles);
-    if('tap_status' in row) parseBlock(row, card, dbBlocks.tap);
-    if('write_status' in row) parseBlock(row, card, dbBlocks.write);
+    if('word' in row) parseBlockToCard(row, card, dbBlocks.articles);
+    if('tap_status' in row) parseBlockToCard(row, card, dbBlocks.tap);
+    if('write_status' in row) parseBlockToCard(row, card, dbBlocks.write);
     return card;
 }
 
 export function transfrmDataFromDb(inputData) {
-    return inputData.map((row, index) => {
+    return inputData.map((row) => {
         const card = transformRowToCard(row);
-        // card.number = index + 1;
         return card;       
     });
 }
 
+function parseBlockToRow(row, card, block) {
+    let isRepresented = false;
+    const { db, js } = block;
+    for(let i = 0; i < js.length; i++) {
+        if(!card[js[i]] && card[js[i]] !== '') continue;
+        row[db[i]] = card[js[i]];
+        isRepresented = true;
+    }
+
+    return isRepresented;
+}
+
 export function transfromCardToRow(card) {
-    
+    const row = {};
+
+    const blocksUpdated = [
+        parseBlockToRow(row, card, dbBlocks.articles),
+        parseBlockToRow(row, card, dbBlocks.tap),
+        parseBlockToRow(row, card, dbBlocks.write)
+    ];
+
+    return { row, blocksUpdated };
 }
