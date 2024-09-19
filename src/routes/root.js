@@ -4,7 +4,7 @@ import 'dotenv/config';
 import findOrCreateRecord from '../app/sdkSynth/findOrCreateRecord.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { deleteCard, getCards, postCard } from '../controllers/cardsController.js';
+import { deleteCard, getCards, patchCard, postCard } from '../controllers/cardsController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,22 +13,11 @@ const router = express.Router();
 
 router.get('/cards', getCards);
 
+router.patch('/cards/:id', patchCard);
+
 router.post('/cards', postCard);
 
 router.delete('/cards/:id', deleteCard);
-
-router.patch('/words/*', async (req, res) => {
-    try {
-        // res.json(req.query);
-        // setTimeout(() => {
-        //     res.json({ id: req.params[0] });
-        // }, 5000);
-        // res.json({ id: req.params[0] });
-        res.json({ success: true });
-    } catch (error) {
-        res.status(400).json({ 'error': error.message });
-    }
-});
 
 router.get('/audio/:filename', async (req, res) => {
     const filename = req.params.filename;

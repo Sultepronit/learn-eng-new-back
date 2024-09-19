@@ -1,11 +1,21 @@
 import getAndPrepareCards from "../services/cardsPreparation.js";
 import { deleteCard as deleteFromDb, getDbVersion, insertCard, selectCardBy, updateDbVersion } from "../db/crud.js";
-import { transformRowFromDb } from "../services/dataTransformer.js";
+import { transformRowToCard } from "../services/dataTransformer.js";
 
 export async function getCards(req, res) {
     try {    
         res.json(await getAndPrepareCards(req.query));
         console.log('sended all the cards!')
+    } catch (error) {
+        res.status(400).json({ 'error': error.message });
+    }
+}
+
+export async function patchCard(req, res) {
+    const id = req.params.id;
+    const changes = req.body;
+    try {
+        res.json({ id, changes });
     } catch (error) {
         res.status(400).json({ 'error': error.message });
     }
@@ -17,7 +27,7 @@ export async function postCard(req, res)  {
         await updateDbVersion(true, true, true);
 
         const rawCard = await selectCardBy('number', req.body?.cardNumber);
-        const card = transformRowFromDb(rawCard);
+        const card = transformRowToCard(rawCard);
 
         const version = await getDbVersion();
 

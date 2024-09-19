@@ -7,7 +7,7 @@ function parseBlock(row, card, block) {
     }
 }
 
-export function transformRowFromDb(row) {
+export function transformRowToCard(row) {
     // const card = { id: row.id };
     const card = { dbid: row.id };
     if('word' in row) parseBlock(row, card, dbBlocks.articles);
@@ -18,8 +18,12 @@ export function transformRowFromDb(row) {
 
 export function transfrmDataFromDb(inputData) {
     return inputData.map((row, index) => {
-        const card = transformRowFromDb(row);
+        const card = transformRowToCard(row);
         // card.number = index + 1;
         return card;       
     });
+}
+
+export function transfromCardToRow(card) {
+    
 }
