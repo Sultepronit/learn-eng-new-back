@@ -9,9 +9,8 @@ const app = express();
 // enable everything for everyone!
 app.use(cors());
 
-app.use(bodyParser.json());
-
-// app.use(express.static(audioDir));
+// app.use(bodyParser.json());
+app.use(express.json());
 
 // app.use(routes);
 app.use('/node-learn-eng', routes);

@@ -32,6 +32,22 @@ export function selectCards(columns) {
     });
 }
 
+export function selectCardBy(column, value) {
+    return new Promise((resolve, reject) => {
+            db.get(`SELECT * FROM main_data WHERE ${column} = ?`, [value], (err, result) => {
+            err ? reject(err) : resolve(result)
+        });
+    });
+}
+
+export function insertCard(cardNumber) {
+    return new Promise((resolve, reject) => {
+        db.run('INSERT INTO main_data (number) VALUES (?)', [cardNumber], (err) => {
+            err ? reject(err) : resolve('inserted!')
+        });
+    });
+}
+
 export function deleteCard(id) {   
     return new Promise((resolve, reject) => {
         db.serialize(() => {

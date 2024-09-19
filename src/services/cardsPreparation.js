@@ -13,7 +13,7 @@ function prepareColumns(blocks) {
     return 'id, ' + columns.join(', ');
 }
 
-export default async function prepareCards(clientVersion) {
+export default async function getAndPrepareCards(clientVersion) {
     const dbVersion = await getDbVersion();
 
     const toBeUpdated = {};
