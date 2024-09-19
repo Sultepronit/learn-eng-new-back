@@ -9,6 +9,20 @@ export function getDbVersion() {
     });
 }
 
+export function updateDbVersion(articles = false, tap = false, write = false) {
+    const blocks = [];
+    if (articles)   blocks.push('articles = articles + 1');
+    if (tap)        blocks.push('tap = tap + 1');
+    if (write)      blocks.push('write = write + 1');
+    const changes = blocks.join(', ');
+
+    const query = `UPDATE db_version SET ${changes} WHERE ROWID = 1`;
+
+    return new Promise((resolve, reject) => {
+        db.run(query, (err) => err ? reject(err) : resolve('updated!'))
+    });
+}
+
 export function selectCards(columns) {   
     return new Promise((resolve, reject) => {
         db.all(

@@ -4,7 +4,7 @@ import 'dotenv/config';
 import findOrCreateRecord from '../app/sdkSynth/findOrCreateRecord.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { deleteCard, getCards } from '../controllers/cardsController.js';
+import { deleteCard, getCards, postCard } from '../controllers/cardsController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,16 +13,9 @@ const router = express.Router();
 
 router.get('/cards', getCards);
 
-router.delete('/cards/:id', deleteCard);
+router.post('/cards', postCard);
 
-router.post('/cards', async (req, res) => {
-    try {
-        res.json({ success: true });
-        // res.json({ dbid: 1111 });
-    } catch (error) {
-        res.status(400).json({ 'error': error.message });
-    }
-})
+router.delete('/cards/:id', deleteCard);
 
 router.patch('/words/*', async (req, res) => {
     try {
