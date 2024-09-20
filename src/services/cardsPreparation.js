@@ -1,6 +1,7 @@
 import { getDbVersion, selectCards } from "../db/crud.js";
 import { transfrmDataFromDb } from "./dataTransformer.js";
 import dbBlocks from "./dbBlocks.js";
+import { checkClientVersion } from "./versionHandlers.js";
 
 function prepareColumns(blocks) {
     if (blocks.length === 3) return '*';
@@ -14,14 +15,16 @@ function prepareColumns(blocks) {
 }
 
 export default async function getAndPrepareCards(clientVersion) {
-    const dbVersion = await getDbVersion();
+    // const dbVersion = await getDbVersion();
 
-    const toBeUpdated = {};
-    for(const field in dbVersion) {
-        if(dbVersion[field] !== Number(clientVersion[field])) {
-            toBeUpdated[field] = dbVersion[field];
-        }
-    }
+    // const toBeUpdated = {};
+    // for(const field in dbVersion) {
+    //     if(dbVersion[field] !== Number(clientVersion[field])) {
+    //         toBeUpdated[field] = dbVersion[field];
+    //     }
+    // }
+
+    const toBeUpdated = await checkClientVersion(clientVersion);
 
     const blocks = Object.keys(toBeUpdated);
 
@@ -31,7 +34,7 @@ export default async function getAndPrepareCards(clientVersion) {
     const data = transfrmDataFromDb(rawData);
 
     return {
-        dbVersion: toBeUpdated,
+        version: toBeUpdated,
         ...(blocks.length === 3 ? { totalUpdate: true } : null),
         data
     };

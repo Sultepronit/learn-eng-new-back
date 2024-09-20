@@ -37,11 +37,17 @@ function parseBlockToRow(row, card, block) {
 export function transfromCardToRow(card) {
     const row = {};
 
-    const blocksUpdated = [
-        parseBlockToRow(row, card, dbBlocks.articles),
-        parseBlockToRow(row, card, dbBlocks.tap),
-        parseBlockToRow(row, card, dbBlocks.write)
-    ];
+    // const blocksUpdated = [
+    //     parseBlockToRow(row, card, dbBlocks.articles),
+    //     parseBlockToRow(row, card, dbBlocks.tap),
+    //     parseBlockToRow(row, card, dbBlocks.write)
+    // ];
+
+    const blocksUpdated = {
+        articles: parseBlockToRow(row, card, dbBlocks.articles),
+        tap: parseBlockToRow(row, card, dbBlocks.tap),
+        write: parseBlockToRow(row, card, dbBlocks.write)
+    }; 
 
     return { row, blocksUpdated };
 }
