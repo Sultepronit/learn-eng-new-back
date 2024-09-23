@@ -15,13 +15,15 @@ export async function getCards(req, res) {
 export async function patchCard(req, res) {
     const id = req.params.id;
     const changes = req.body;
-    const { row, blocksUpdated } = transfromCardToRow(changes);
+    const { row, blocksPresent } = transfromCardToRow(changes);
 
     try {
         const updateResult = await updateCard(id, row);
 
-        await updateDbVersion(...Object.values(blocksUpdated));
-        const version = await filterVersionToSend(blocksUpdated);
+        console.log(updateResult);
+
+        await updateDbVersion(...Object.values(blocksPresent));
+        const version = await filterVersionToSend(blocksPresent);
 
         res.json({ version });
     } catch (error) {

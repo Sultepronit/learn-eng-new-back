@@ -10,7 +10,7 @@ function parseBlockToCard(row, card, block) {
 export function transformRowToCard(row) {
     const card = { dbid: row.id };
     if('word' in row) parseBlockToCard(row, card, dbBlocks.articles);
-    if('tap_status' in row) parseBlockToCard(row, card, dbBlocks.tap);
+    if('tap_f_progress' in row) parseBlockToCard(row, card, dbBlocks.tap);
     if('write_status' in row) parseBlockToCard(row, card, dbBlocks.write);
     return card;
 }
@@ -37,11 +37,11 @@ function parseBlockToRow(row, card, block) {
 export function transfromCardToRow(card) {
     const row = {};
 
-    const blocksUpdated = {
+    const blocksPresent = {
         articles: parseBlockToRow(row, card, dbBlocks.articles),
         tap: parseBlockToRow(row, card, dbBlocks.tap),
         write: parseBlockToRow(row, card, dbBlocks.write)
     }; 
 
-    return { row, blocksUpdated };
+    return { row, blocksPresent };
 }

@@ -13,7 +13,6 @@ const dbBlocks = {
             'tap_b_autorepeat'
         ],
         js: [
-            'tapStatus',
             'tapFProgress',
             'tapFRecord',
             'tapFAutorepeat',
