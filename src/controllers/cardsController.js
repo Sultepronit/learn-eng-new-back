@@ -1,5 +1,5 @@
 import getAndPrepareCards from "../services/cardsPreparation.js";
-import { deleteCard as deleteFromDb, getDbVersion, insertCard, selectCardBy, updateCard, updateDbVersion } from "../db/crud.js";
+import { deleteCard as deleteFromDb, getDbVersion, insertCard, selectLastCard, updateCard, updateDbVersion } from "../db/crud.js";
 import { transformRowToCard, transfromCardToRow } from "../services/dataTransformer.js";
 import { filterVersionToSend } from "../services/versionHandlers.js";
 
@@ -21,8 +21,6 @@ export async function patchCard(req, res) {
         const updateResult = await updateCard(id, row);
 
         await updateDbVersion(...Object.values(blocksUpdated));
-
-        // const version = await getDbVersion();
         const version = await filterVersionToSend(blocksUpdated);
 
         res.json({ version });
@@ -32,18 +30,30 @@ export async function patchCard(req, res) {
 }
 
 export async function postCard(req, res)  {
-    try { // should check if the card number is actual!!!
-        const inserted = await insertCard(req.body?.cardNumber);
+    try { 
+        const newCardNumber = req.body?.cardNumber;
+        if(!newCardNumber) res.json({ status: 'wrong input' });
+
+        const expectedCardNumber = (await selectLastCard('number')).number + 1;
+        if(expectedCardNumber !== newCardNumber) {
+            res.status(400).json({ error: `get ${newCardNumber} while ${expectedCardNumber} expected!`});
+            return;
+        }
+
+        await insertCard(req.body?.cardNumber);
+
+        const newCard = await selectLastCard('id, number');
+        if(newCard.number !== newCardNumber) {
+            resstatus(400).json({ error: `Something went wrong!!! Last card number is ${newCard.number}`});
+            return;
+        }
+
         await updateDbVersion(true, true, true);
-
-        const rawCard = await selectCardBy('number', req.body?.cardNumber);
-        const card = transformRowToCard(rawCard);
-
         const version = await getDbVersion();
 
-        res.json({ card, version });
+        res.json({ dbid: newCard.id, version });
     } catch (error) {
-        res.status(400).json({ 'error': error.message });
+        res.status(400).json({ error: error.message });
     }
 }
 
