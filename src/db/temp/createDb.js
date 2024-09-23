@@ -15,7 +15,11 @@ db.serialize(async () => {
     const createMainTable = `CREATE TABLE main_data (
         id INTEGER PRIMARY KEY,
         number INTEGER,
-        tap_status INTEGER DEFAULT -1,
+        repeat_status INTEGER DEFAULT -1,
+        word TEXT DEFAULT '',
+        transcription TEXT DEFAULT '',
+        translation TEXT DEFAULT '',
+        example TEXT DEFAULT '',
         tap_f_progress INTEGER DEFAULT 0,
         tap_b_progress INTEGER DEFAULT 0,
         tap_f_record INTEGER DEFAULT 0,
@@ -28,18 +32,14 @@ db.serialize(async () => {
         write_f_record INTEGER DEFAULT 0,
         write_b_record INTEGER DEFAULT 0,
         write_f_autorepeat INTEGER DEFAULT 0,
-        write_b_autorepeat INTEGER DEFAULT 0,
-        word TEXT,
-        transcription TEXT,
-        translation TEXT,
-        example TEXT
+        write_b_autorepeat INTEGER DEFAULT 0
     )`;
     db.run(dropMainTable);
     db.run(createMainTable);
 
     const fillMainTable = `INSERT INTO main_data (
         number,
-        tap_status,
+        repeat_status,
         tap_f_progress,
         tap_b_progress,
         write_status,

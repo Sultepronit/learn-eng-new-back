@@ -15,15 +15,6 @@ function prepareColumns(blocks) {
 }
 
 export default async function getAndPrepareCards(clientVersion) {
-    // const dbVersion = await getDbVersion();
-
-    // const toBeUpdated = {};
-    // for(const field in dbVersion) {
-    //     if(dbVersion[field] !== Number(clientVersion[field])) {
-    //         toBeUpdated[field] = dbVersion[field];
-    //     }
-    // }
-
     const toBeUpdated = await checkClientVersion(clientVersion);
 
     const blocks = Object.keys(toBeUpdated);

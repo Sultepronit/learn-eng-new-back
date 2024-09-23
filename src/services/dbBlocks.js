@@ -1,6 +1,6 @@
 const dbBlocks = {
     articles: {
-        db: ['number', 'tap_status', 'word', 'transcription', 'translation', 'example'],
+        db: ['number', 'repeat_status', 'word', 'transcription', 'translation', 'example'],
         js: ['number', 'repeatStatus', 'word', 'transcription', 'translation', 'example'],
     },
     tap: {
