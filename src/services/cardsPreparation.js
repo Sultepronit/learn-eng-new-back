@@ -11,7 +11,7 @@ function prepareColumns(blocks) {
     if (blocks.includes('tap')) columns.push(...dbBlocks.tap.db);
     if (blocks.includes('write')) columns.push(...dbBlocks.write.db);
 
-    return 'id, ' + columns.join(', ');
+    return 'id, number, ' + columns.join(', ');
 }
 
 export default async function getAndPrepareCards(clientVersion) {

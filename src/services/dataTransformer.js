@@ -8,7 +8,10 @@ function parseBlockToCard(row, card, block) {
 }
 
 export function transformRowToCard(row) {
-    const card = { dbid: row.id };
+    const card = {
+        dbid: row.id,
+        number: row.number
+    };
     if('word' in row) parseBlockToCard(row, card, dbBlocks.articles);
     if('tap_f_progress' in row) parseBlockToCard(row, card, dbBlocks.tap);
     if('write_status' in row) parseBlockToCard(row, card, dbBlocks.write);
