@@ -23,10 +23,10 @@ export function updateDbVersion(articles = false, tap = false, write = false) {
     });
 }
 
-export function selectCards(columns) {   
+export function selectCards(columns, conditions) {   
     return new Promise((resolve, reject) => {
         db.all(
-            `SELECT ${columns} FROM main_data`,
+            `SELECT ${columns} FROM main_data ${conditions}`,
             (err, result) => err ? reject(err) : resolve(result)
         );
     });

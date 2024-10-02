@@ -5,6 +5,7 @@ import findOrCreateRecord from '../app/sdkSynth/findOrCreateRecord.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { deleteCard, getCards, patchCard, postCard } from '../controllers/cardsController.js';
+import createTapSession from '../controllers/tapSessionController.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,13 +20,15 @@ router.post('/cards', postCard);
 
 router.delete('/cards/:id', deleteCard);
 
+router.get('/tap-session', createTapSession); 
+
 router.get('/audio/:filename', async (req, res) => {
     const filename = req.params.filename;
 
     try {
         const filepath = await findOrCreateRecord(filename);
-        // res.setHeader('Content-Type', 'audio/wav');
-        res.sendFile(filepath, (err) => {
+        // res.sendFile(filepath, { cacheControl: false }, (err) => {
+            res.sendFile(filepath, { cacheControl: 'public, immutable, max-age=31536000' }, (err) => {
             if (err) res.status(404).send('File not found!');
         }); 
     } catch (error) {
@@ -38,7 +41,10 @@ router.get('/audio-temp/:filename', async (req, res) => {
 
     try {
         const filepath = await findOrCreateRecord(filename, true);
-        // res.setHeader('Content-Type', 'audio/wav');
+        // res.sendFile(filepath, { cacheControl: false }, (err) => {
+        // res.sendFile(filepath, { cacheControl: 'public, max-age=604800, immutable' }, (err) => {
+        // res.sendFile(filepath, { cacheControl: 'public, max-age=604800' }, (err) => {
+        res.set('Cache-Control', 'public, max-age=31557600'); // one year
         res.sendFile(filepath, (err) => {
             if (err) res.status(404).send('File not found!');
         }); 
