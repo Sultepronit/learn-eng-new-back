@@ -27,8 +27,8 @@ router.get('/audio/:filename', async (req, res) => {
 
     try {
         const filepath = await findOrCreateRecord(filename);
-        // res.sendFile(filepath, { cacheControl: false }, (err) => {
-            res.sendFile(filepath, { cacheControl: 'public, immutable, max-age=31536000' }, (err) => {
+        res.sendFile(filepath, { cacheControl: false }, (err) => {
+            // res.sendFile(filepath, { cacheControl: 'public, immutable, max-age=31536000' }, (err) => {
             if (err) res.status(404).send('File not found!');
         }); 
     } catch (error) {
