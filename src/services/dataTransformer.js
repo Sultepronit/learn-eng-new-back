@@ -29,7 +29,7 @@ function parseBlockToRow(row, card, block) {
     let isRepresented = false;
     const { db, js } = block;
     for(let i = 0; i < js.length; i++) {
-        if(!card[js[i]] && card[js[i]] !== '') continue;
+        if(card[js[i]] === undefined) continue;
         row[db[i]] = card[js[i]];
         isRepresented = true;
     }

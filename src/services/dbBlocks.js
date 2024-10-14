@@ -1,10 +1,11 @@
 const dbBlocks = {
     articles: {
-        db: ['repeat_status', 'word', 'transcription', 'translation', 'example'],
-        js: ['repeatStatus', 'word', 'transcription', 'translation', 'example'],
+        db: ['word', 'transcription', 'translation', 'example'],
+        js: ['word', 'transcription', 'translation', 'example'],
     },
     tap: {
         db: [
+            'repeat_status',
             'tap_f_progress', 
             'tap_f_record', 
             'tap_f_autorepeat', 
@@ -13,6 +14,7 @@ const dbBlocks = {
             'tap_b_autorepeat'
         ],
         js: [
+            'repeatStatus',
             'tapFProgress',
             'tapFRecord',
             'tapFAutorepeat',

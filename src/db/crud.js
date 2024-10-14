@@ -56,7 +56,7 @@ export function updateCard(id, changes) {
         const setClause = columns.join(' = ?, ');
 
         const query = `UPDATE main_data SET ${setClause} = ? WHERE id = ?`;
-        console.log(query);
+        // console.log(query);
         db.run(query, [...values, id], (err) => err ? reject(err) : resolve('updated!'));
     });
 }

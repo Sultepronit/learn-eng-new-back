@@ -42,8 +42,6 @@ export default async function createTapSession(req, res) {
             result.session = cards.map(card => card.number);
         } else {
             result.cards = cards;
-            // blocks.length === 2 ? result.cards = cards : result.cardsUpdate = cards;
-            if (blocks.length < 2) result.patch = true;
         }
 
         res.json(result);
