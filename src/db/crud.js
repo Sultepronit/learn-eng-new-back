@@ -99,3 +99,20 @@ export function deleteCard(id) {
         });
     });
 }
+
+export function getConstsAndVars(session) {
+    return new Promise((resolve, reject) => {
+        db.get(
+            `SELECT * FROM ${session}_consts_vars`,
+            (err, result) => err ? reject(err) : resolve(result)
+        );
+    });
+}
+
+export function updateSessionVar(session, column, value) {
+    const query = `UPDATE ${session}_consts_vars SET ${column} = ? WHERE ROWID = 1`;
+
+    return new Promise((resolve, reject) => {
+        db.run(query, [value], (err) => err ? reject(err) : resolve('updated!'));
+    });
+}

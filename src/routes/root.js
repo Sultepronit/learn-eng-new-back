@@ -6,11 +6,14 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { deleteCard, getCards, patchCard, postCard } from '../controllers/cardsController.js';
 import createTapSession from '../controllers/tapSessionController.js';
+import { getDbVersion } from '../db/crud.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = express.Router();
+
+// router.get('/test', async () => getDbVersion());
 
 router.get('/cards', getCards);
 

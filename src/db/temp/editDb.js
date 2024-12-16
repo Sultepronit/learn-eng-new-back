@@ -1,19 +1,27 @@
 import db from '../connection.js';
-import fs from 'fs/promises';
 
 db.serialize(async () => {
-    const dropTable = 'DROP TABLE IF EXISTS db_version';
-    db.run(dropTable);
+    // const dropTable = 'DROP TABLE IF EXISTS db_version';
+    // db.run(dropTable);
 
-    const createTable = `CREATE TABLE db_version (
-        articles INTEGER DEFAULT 0,
-        tap INTEGER DEFAULT 0,
-        write INTEGER DEFAULT 0
+    // const createTable = `CREATE TABLE db_version (
+    //     articles INTEGER DEFAULT 0,
+    //     tap INTEGER DEFAULT 0,
+    //     write INTEGER DEFAULT 0
+    // )`;
+    // db.run(createTable);
+
+    // const fillTable = `INSERT INTO db_version VALUES (1, 1, 1)`;
+    // db.run(fillTable);
+
+    const createTable = `CREATE TABLE tap_consts_vars (
+        next_repeated INTEGER DEFAULT 2001,
+        max_to_repeat INTEGER DEFAULT 1370
     )`;
     db.run(createTable);
 
-    const fillTable = `INSERT INTO db_version VALUES (1, 1, 1)`;
-    db.run(fillTable);
+    // const fillTable = `INSERT INTO db_version VALUES (1, 1, 1)`;
+    // db.run(fillTable);
 
 //     const fillMainTable = `INSERT INTO main_data (
 //         tap_status,
