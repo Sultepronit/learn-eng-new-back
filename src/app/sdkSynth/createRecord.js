@@ -1,7 +1,7 @@
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
 export default async function createRecord(text, filepath, voice, rate) {
-    console.time('creating file');
+    // console.time('creating file');
     return new Promise((resolve, reject) => {
         const key = process.env.SPEECH_KEY;
         const region = process.env.SPEECH_REGION;
@@ -26,7 +26,7 @@ export default async function createRecord(text, filepath, voice, rate) {
                         resolve('Success!'); // is it any good? 
                     }, 100);
                     // resolve('Success!');
-                    console.timeEnd('creating file');
+                    // console.timeEnd('creating file');
                 } else {
                     reject(result.errorDetails);
                 }

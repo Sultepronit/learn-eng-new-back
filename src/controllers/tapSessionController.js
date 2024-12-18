@@ -17,6 +17,7 @@ export default async function createTapSession(req, res) {
         const constsAndVars = await getConstsAndVars('tap');
         console.log(constsAndVars);
         const nextRepeated = constsAndVars.next_repeated + 1;
+        // const nextRepeated = constsAndVars.next_repeated;
         const maxToRepeat = constsAndVars.max_to_repeat;
 
         updateSessionVar('tap', 'next_repeated', nextRepeated);
