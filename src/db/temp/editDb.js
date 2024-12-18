@@ -14,14 +14,17 @@ db.serialize(async () => {
     // const fillTable = `INSERT INTO db_version VALUES (1, 1, 1)`;
     // db.run(fillTable);
 
+    const dropTable = 'DROP TABLE IF EXISTS tap_consts_vars';
+    db.run(dropTable);
+
     const createTable = `CREATE TABLE tap_consts_vars (
-        next_repeated INTEGER DEFAULT 2001,
-        max_to_repeat INTEGER DEFAULT 1370
+        next_repeated INTEGER DEFAULT 0,
+        max_to_repeat INTEGER DEFAULT 0
     )`;
     db.run(createTable);
 
-    // const fillTable = `INSERT INTO db_version VALUES (1, 1, 1)`;
-    // db.run(fillTable);
+    const fillTable = `INSERT INTO tap_consts_vars VALUES (2001, 1380)`;
+    db.run(fillTable);
 
 //     const fillMainTable = `INSERT INTO main_data (
 //         tap_status,

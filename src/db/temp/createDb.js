@@ -1,5 +1,6 @@
 import db from '../connection.js';
 import fs from 'fs/promises';
+import parseWord from './wordParser.js';
 
 async function readJson(filepath) {
     try {
@@ -52,8 +53,12 @@ db.serialize(async () => {
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     let stmt = db.prepare(fillMainTable);
-    const rawData = await readJson('./source2.json');
+    const rawData = await readJson('./source3.json');
     for(let i = 0; i < rawData.length; i++) {
+    // for(let i = 0; i < 100; i++) {
+        if(rawData[i][6][0] === '/') {
+            console.log(rawData[i][6]);
+        }
         stmt.run([
             i + 1,
             rawData[i][0],
@@ -62,7 +67,7 @@ db.serialize(async () => {
             rawData[i][3],
             rawData[i][4],
             rawData[i][5],
-            rawData[i][6],
+            parseWord(rawData[i][6]),
             rawData[i][7],
             rawData[i][8],
             rawData[i][9]
