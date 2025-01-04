@@ -11,13 +11,12 @@ export default async function createTapSession(req, res) {
         const blocks = Object.keys(toBeUpdated);
         const columns = getColumnsFromBlocks(blocks, (blocks.length < 2));
 
-        const repeatNumber = 15;
+        const repeatNumber = 20;
         const confirmDivisor = 5;
 
         const constsAndVars = await getConstsAndVars('tap');
         console.log(constsAndVars);
         const nextRepeated = constsAndVars.next_repeated + 1;
-        // const nextRepeated = constsAndVars.next_repeated;
         const maxToRepeat = constsAndVars.max_to_repeat;
 
         updateSessionVar('tap', 'next_repeated', nextRepeated);
@@ -28,7 +27,6 @@ export default async function createTapSession(req, res) {
         const confirmNumber = Math.round(allToConfirm.length / confirmDivisor);
         const confirmList = getRandomizedPart(allToConfirm, confirmNumber);
 
-        // const maxToRepeat = 1200;
         const allToRepeat = await selectCards(
             columns,
             `WHERE repeat_status BETWEEN 2 and ${maxToRepeat}`
