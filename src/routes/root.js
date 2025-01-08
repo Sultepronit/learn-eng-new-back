@@ -6,7 +6,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { deleteCard, getCards, patchCard, postCard } from '../controllers/cardsController.js';
 import createTapSession from '../controllers/tapSessionController.js';
-import { getDbVersion } from '../db/crud.js';
+import createWriteSession from '../controllers/writeSessionController.js';
+// import { getDbVersion } from '../db/crud.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,8 @@ router.post('/cards', postCard);
 router.delete('/cards/:id', deleteCard);
 
 router.get('/tap-session', createTapSession); 
+
+router.get('/write-session', createWriteSession)
 
 router.get('/audio/:filename', async (req, res) => {
     const filename = req.params.filename;
