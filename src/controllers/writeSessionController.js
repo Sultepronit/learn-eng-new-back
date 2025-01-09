@@ -2,19 +2,17 @@ import { getConstsAndVars, selectCards, updateSessionVar } from "../db/crud.js";
 import { getRandomizedPart } from "../helpers/randomizingUtils.js";
 import { transfrmDataFromDb } from "../services/dataTransformer.js";
 import getColumnsFromBlocks from "../services/getColumnsFromBlocks.js";
-// import { checkClientVersion } from "../services/versionHandlers.js";
+import { checkClientVersion } from "../services/versionHandlers.js";
 
 export default async function createWriteSession(req, res) {
     try {
-        // const toBeUpdated = await checkClientVersion(req.query);
-        // delete toBeUpdated.write;
-        // const blocks = Object.keys(toBeUpdated);
-        const columns = getColumnsFromBlocks(['articles', 'write']);
+        const toBeUpdated = await checkClientVersion(req.query);
+        delete toBeUpdated.tap;
+        const blocks = Object.keys(toBeUpdated);
+        // const columns = getColumnsFromBlocks(['articles', 'write']);
+        const columns = getColumnsFromBlocks(blocks, (blocks.length < 2));
 
-        // const repeatNumber = 20;
-        // const confirmDivisor = 5;
-
-        const sessionLength = 60;
+        const sessionLength = 50;
 
         // const constsAndVars = await getConstsAndVars('tap');
         // console.log(constsAndVars);
@@ -24,12 +22,6 @@ export default async function createWriteSession(req, res) {
         const maxToRepeat = 500;
 
         // updateSessionVar('tap', 'next_repeated', nextRepeated);
-
-        // const learnList = await selectCards(columns, 'WHERE repeat_status = 0');
-
-        // const allToConfirm = await selectCards(columns, 'WHERE repeat_status = 1');
-        // const confirmNumber = Math.round(allToConfirm.length / confirmDivisor);
-        // const confirmList = getRandomizedPart(allToConfirm, confirmNumber);
 
         const allToRepeat = await selectCards(
             columns,
@@ -44,30 +36,24 @@ export default async function createWriteSession(req, res) {
 
         const repeatList = getRandomizedPart(allToRepeat, sessionLength);
 
-        // const result = {
-        //     stages: {
-        //         learn: learnList.length,
-        //         confirm: confirmNumber,
-        //         repeat: repeatNumber
-        //     },
-        //     nextRepeated
-        // };
-
-        // const cards = transfrmDataFromDb(
-        //     getRandomizedPart([...learnList, ...confirmList, ...repeatList])
-        // );
-
-        // if (!blocks.length) {
-        //     result.session = cards.map(card => card.number);
-        // } else {
-        //     result.cards = cards;
-        // }
+        const cards = transfrmDataFromDb(repeatList);
 
         const response = {
-            cards: transfrmDataFromDb(repeatList),
-            sessionLength,
             nextRepeated
+        };
+
+        // console.log(blocks);
+        if (!blocks.length) {
+            response.session = cards.map(card => card.number);
+        } else {
+            response.cards = cards;
         }
+
+        // const response = {
+        //     cards: transfrmDataFromDb(repeatList),
+        //     // sessionLength,
+        //     nextRepeated
+        // }
 
         res.json(response);
     } catch (error) {
