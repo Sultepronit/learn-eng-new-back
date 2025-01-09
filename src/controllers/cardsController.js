@@ -1,7 +1,7 @@
 import getAndPrepareCards from "../services/cardsPreparation.js";
 import { deleteCard as deleteFromDb, getDbVersion, insertCard, selectLastCard, updateCard, updateDbVersion } from "../db/crud.js";
 import { transformRowToCard, transfromCardToRow } from "../services/dataTransformer.js";
-import { filterVersionToSend } from "../services/versionHandlers.js";
+// import { filterVersionToSend } from "../services/versionHandlers.js";
 
 export async function getCards(req, res) {
     try {    
@@ -23,7 +23,8 @@ export async function patchCard(req, res) {
         console.log(updateResult);
 
         await updateDbVersion(...Object.values(blocksPresent));
-        const version = await filterVersionToSend(blocksPresent);
+        // const version = await filterVersionToSend(blocksPresent);
+        const version = await getDbVersion();
 
         res.json({ version });
     } catch (error) {

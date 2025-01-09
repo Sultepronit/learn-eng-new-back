@@ -13,15 +13,15 @@ export async function checkClientVersion(clientVersion) {
     return toBeUpdated; 
 }
 
-export async function filterVersionToSend(blocksUpdated) {
-    const dbVersion = await getDbVersion();
+// export async function filterVersionToSend(blocksUpdated) {
+//     const dbVersion = await getDbVersion();
 
-    const filtered = {};
-    for(const field in blocksUpdated) {
-        if(blocksUpdated[field]) {
-            filtered[field] = dbVersion[field];
-        }
-    }
+//     const filtered = {};
+//     for(const field in blocksUpdated) {
+//         if(blocksUpdated[field]) {
+//             filtered[field] = dbVersion[field];
+//         }
+//     }
 
-    return filtered;
-}
+//     return filtered;
+// }
