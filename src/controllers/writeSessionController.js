@@ -14,25 +14,26 @@ export default async function createWriteSession(req, res) {
 
         const sessionLength = 50;
 
-        // const constsAndVars = await getConstsAndVars('tap');
-        // console.log(constsAndVars);
-        // const nextRepeated = constsAndVars.next_repeated + 1;
-        // const maxToRepeat = constsAndVars.max_to_repeat;
-        const nextRepeated = 1000;
-        const maxToRepeat = 500;
+        const constsAndVars = await getConstsAndVars('write');
+        console.log(constsAndVars);
+        const nextRepeated = constsAndVars.next_repeated + 1;
+        const maxToRepeat = constsAndVars.max_to_repeat;
+        // const nextRepeated = 1000;
+        // const maxToRepeat = 330;
 
-        // updateSessionVar('tap', 'next_repeated', nextRepeated);
+        updateSessionVar('write', 'next_repeated', nextRepeated);
 
         const allToRepeat = await selectCards(
             columns,
-            `WHERE write_status BETWEEN 3 and ${maxToRepeat}`
+            // `WHERE write_status BETWEEN 3 and ${maxToRepeat}`
+            `WHERE repeat_status > 2 AND write_status < ${maxToRepeat}`
         );
         console.log(allToRepeat.length);
         // console.log(allToRepeat);
 
-        // if (allToRepeat.length < 400) {
-        //     updateSessionVar('tap', 'max_to_repeat', maxToRepeat + repeatNumber);
-        // }
+        if (allToRepeat.length < 400) {
+            updateSessionVar('write', 'max_to_repeat', maxToRepeat + 20);
+        }
 
         const repeatList = getRandomizedPart(allToRepeat, sessionLength);
 
@@ -48,12 +49,6 @@ export default async function createWriteSession(req, res) {
         } else {
             response.cards = cards;
         }
-
-        // const response = {
-        //     cards: transfrmDataFromDb(repeatList),
-        //     // sessionLength,
-        //     nextRepeated
-        // }
 
         res.json(response);
     } catch (error) {
