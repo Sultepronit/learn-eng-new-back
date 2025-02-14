@@ -11,7 +11,7 @@ export default async function createTapSession(req, res) {
         const blocks = Object.keys(toBeUpdated);
         const columns = getColumnsFromBlocks(blocks, (blocks.length < 2));
 
-        const repeatNumber = 20;
+        const repeatNumber = 15;
         const confirmDivisor = 5;
 
         const constsAndVars = await getConstsAndVars('tap');
