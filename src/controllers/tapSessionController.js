@@ -31,10 +31,12 @@ export default async function createTapSession(req, res) {
             columns,
             `WHERE repeat_status BETWEEN 2 and ${maxToRepeat}`
         );
-        console.log(allToRepeat.length);
+        console.log('all to repeat (of 400):', allToRepeat.length);
 
         if (allToRepeat.length < 400) {
-            updateSessionVar('tap', 'max_to_repeat', maxToRepeat + repeatNumber);
+            // updateSessionVar('tap', 'max_to_repeat', maxToRepeat + repeatNumber);
+            const increment = Math.ceil((400 - allToRepeat.length) * 2 / repeatNumber);
+            updateSessionVar('tap', 'max_to_repeat', maxToRepeat + increment);
         }
 
         const repeatList = getRandomizedPart(allToRepeat, repeatNumber);
