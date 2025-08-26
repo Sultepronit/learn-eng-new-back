@@ -35,7 +35,7 @@ export default async function createTapSession(req, res) {
 
         if (allToRepeat.length < 400) {
             // updateSessionVar('tap', 'max_to_repeat', maxToRepeat + repeatNumber);
-            const increment = Math.ceil((400 - allToRepeat.length) * 2 / repeatNumber);
+            const increment = Math.ceil((400 - allToRepeat.length) / repeatNumber * 4);
             updateSessionVar('tap', 'max_to_repeat', maxToRepeat + increment);
         }
 
