@@ -11,8 +11,8 @@ export default async function createTapSession(req, res) {
         const blocks = Object.keys(toBeUpdated);
         const columns = getColumnsFromBlocks(blocks, (blocks.length < 2));
 
-        const repeatNumber = 15;
-        const confirmDivisor = 5;
+        const repeatNumber = 20;
+        // const confirmDivisor = 5;
 
         const constsAndVars = await getConstsAndVars('tap');
         console.log(constsAndVars);
@@ -23,13 +23,13 @@ export default async function createTapSession(req, res) {
 
         const learnList = await selectCards(columns, 'WHERE repeat_status = 0');
 
-        const allToConfirm = await selectCards(columns, 'WHERE repeat_status = 1');
-        const confirmNumber = Math.round(allToConfirm.length / confirmDivisor);
-        const confirmList = getRandomizedPart(allToConfirm, confirmNumber);
+        // const allToConfirm = await selectCards(columns, 'WHERE repeat_status = 1');
+        // const confirmNumber = Math.round(allToConfirm.length / confirmDivisor);
+        // const confirmList = getRandomizedPart(allToConfirm, confirmNumber);
 
         const allToRepeat = await selectCards(
             columns,
-            `WHERE repeat_status BETWEEN 2 and ${maxToRepeat}`
+            `WHERE repeat_status BETWEEN 1 and ${maxToRepeat}`
         );
         console.log('all to repeat (of 400):', allToRepeat.length);
 
@@ -44,14 +44,15 @@ export default async function createTapSession(req, res) {
         const result = {
             stages: {
                 learn: learnList.length,
-                confirm: confirmNumber,
+                // confirm: confirmNumber,
                 repeat: repeatNumber
             },
             nextRepeated
         };
 
         const cards = transfrmDataFromDb(
-            getRandomizedPart([...learnList, ...confirmList, ...repeatList])
+            // getRandomizedPart([...learnList, ...confirmList, ...repeatList])
+            getRandomizedPart([...learnList, ...repeatList])
         );
 
         if (!blocks.length) {
