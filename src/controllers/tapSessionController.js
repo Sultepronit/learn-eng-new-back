@@ -1,11 +1,14 @@
 import { getConstsAndVars, selectCards, updateSessionVar } from "../db/crud.js";
 import { getRandomizedPart } from "../helpers/randomizingUtils.js";
 import { transfrmDataFromDb } from "../services/dataTransformer.js";
+import returnForgottenWords from "../services/forgottenWords.js";
 import getColumnsFromBlocks from "../services/getColumnsFromBlocks.js";
 import { checkClientVersion } from "../services/versionHandlers.js";
 
 export default async function createTapSession(req, res) {
     try {
+        await returnForgottenWords();
+
         const toBeUpdated = await checkClientVersion(req.query);
         delete toBeUpdated.write;
         const blocks = Object.keys(toBeUpdated);

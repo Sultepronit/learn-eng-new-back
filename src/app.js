@@ -2,7 +2,10 @@ import express from 'express';
 import cors from 'cors';
 // import bodyParser from 'body-parser';
 import routes from './routes/root.js';
+import returnForgottenWords from './services/forgottenWords.js';
 // import { audioDir } from './app/sdkSynth/findOrCreateRecord.js';
+
+// returnForgottenWords();
 
 const app = express();
 

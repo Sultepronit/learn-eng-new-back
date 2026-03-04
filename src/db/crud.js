@@ -32,14 +32,6 @@ export function selectCards(columns, conditions) {
     });
 }
 
-// export function selectCardBy(column, value, columns) {
-//     return new Promise((resolve, reject) => {
-//             db.get(`SELECT ${columns} FROM main_data WHERE ${column} = ?`, [value], (err, result) => {
-//             err ? reject(err) : resolve(result)
-//         });
-//     });
-// }
-
 export function selectLastCard(columns = '*') {
     return new Promise((resolve, reject) => {
         db.get(`SELECT ${columns} FROM main_data ORDER BY id DESC LIMIT 1`, (err, result) => {
